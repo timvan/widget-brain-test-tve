@@ -38,12 +38,12 @@ def getNewJokes():
 	return "getting jokes"
 
 
-def chuck_call():
-	"""Call for Chuck Norris jokes
+def chuck_call(n):
+	"""Call for Chuck Norris n jokes
 	Return dictionary of Chuck Norris values
 	"""
 	print ("chuck_call")
-	url = 'http://api.icndb.com/jokes/random/'
+	url = 'http://api.icndb.com/jokes/random/' + str(n)
 	response = requests.get(url)
 	data = response.json()
 	return data
@@ -55,12 +55,12 @@ def get_joke(n):
 	Call for Chuck Norris jokes n times and append to ./jokes_storage.csv
 	"""
 	print ("get_joke")
+	data = chuck_call(n)
 	with open('./jokes_storage.csv', 'a') as f:
 		writer = csv.writer(f)
 		for i in range(n):
-			data = chuck_call()
-			writer.writerow([data['value']['id'], data['value']['joke'],
-			 	data['value']['categories']])
+			writer.writerow([data['value'][i]['id'], data['value'][i]['joke'],
+			 	data['value'][i]['categories']])
 
 
 def init_db():
@@ -79,7 +79,6 @@ if __name__ == '__main__':
 """
 TODO:
 
-- optimise by getting 10 jokes at a time
 - Check if call is succesfuly or not, only store if succes
 - for chuck_call - check / wait for a response
 - init_db should first check if exists, 
