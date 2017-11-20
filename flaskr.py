@@ -13,7 +13,8 @@ def display():
 
 @app.route('/getJokes')
 def return_jokes():
-	"""read database for all jokes, return page with jokes seperated by html linespace
+	"""read database for all jokes
+	return page with jokes seperated by html linespace
 	"""
 	page = ""
 	with open('./jokes_storage.csv', 'r') as f:
@@ -30,6 +31,11 @@ def flush_jokes():
 	"""
 	init_db()
 	return "Flushed jokes: re-intiailised database"
+
+@app.route('/getNewJokes')
+def getNewJokes():
+	get_joke(10)
+	return "getting jokes"
 
 
 def chuck_call():
@@ -73,9 +79,12 @@ if __name__ == '__main__':
 """
 TODO:
 
-- Check is call is succesfuly or not, only store if succes
+- optimise by getting 10 jokes at a time
+- Check if call is succesfuly or not, only store if succes
 - for chuck_call - check / wait for a response
 - init_db should first check if exists, 
 - flushJokes - should delete database rows instead of re-initialising
+- build html & css front
+
 
 """
